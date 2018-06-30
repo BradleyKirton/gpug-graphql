@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tasks</title>
+</head>
+<body>
+	<div>
+		<h1>Sync Meetup data</h1>
+
+		<p>Enter a meetup name in the form below to add it to the application.</p>
+		<p>The meetup name is the path in the URI on meetup.com.</p>
+		<p>Note if no name is provided we will attempt to sync all the meetups stored in the database.</p>
+		
+		<form action="/tasks/" method="post">
+			{% csrf_token %}
+			<label for="Meetup name" title="This is the path in the meetup URI"></label>
+			<input type="text" id="name" name="name" value="{{ name }}">
+
+			<input type="submit" value="Sync">
+		</form>
+		
+		<h1>Meetups</h1>
+
+		{% for meetup in meetups %}
+		    <ul>
+		    	{% if meetup.syncing %}
+		    		<li class="meetup" id="{{ meetup.id }}">{{ meetup.name }} - Syncing</li>
+		    	{% else %}
+		    		<li class="meetup" id="{{ meetup.id }}">{{ meetup.name }}</li>
+		    	{% endif %}
+		    </ul>
+		{% endfor %}
+	</div>
+	</script>
+</body>
+</html>

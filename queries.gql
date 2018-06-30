@@ -1,0 +1,79 @@
+# Basic query
+
+query {
+	all_meetups {
+		id
+		name
+	}
+}
+
+
+# Nested query 1
+
+query {
+	all_meetups {
+		id
+		name
+		event_set {
+			name
+		}
+	}
+}
+
+
+# Nested query 2
+
+query {
+  all_events {
+    name
+    meetup {
+      id
+      name
+    }
+  }
+}
+
+
+# Filtering on a single record
+
+query {
+  attendee(name: "Bradley Kirton") {
+    name
+    attendance_set {
+      event {
+        name
+        meetup {
+          name
+        }
+      }
+    }
+  }
+}
+
+
+# Aliasing fields
+
+query {
+  people: all_attendees {
+
+    fullName: name
+    memberId: member_id
+  }
+}
+
+
+# Declaring variables
+
+query Me($me: Int) {
+  attendee(id: $me) {
+    fullName: name
+    memberId: member_id
+    attendance_set {
+      rsvp
+    }
+  }
+}
+
+{
+	"me": 5 
+}
