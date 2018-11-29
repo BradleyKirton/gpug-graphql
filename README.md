@@ -4,7 +4,7 @@ The slides that go along with this repository can be found [here](https://slides
 
 ## Installation
 
-This project makes use of pipenv. To install the dependencies first [install pipenv](https://docs.pipenv.org/#install-pipenv-today) and then run the following make file command.
+This project makes use of poetry. To install the dependencies first [install poetry](https://pypi.org/project/poetry/) and then run the following make file command.
 
 ```bash
 make install
@@ -24,4 +24,4 @@ Note the superuser's authentication details are as follows:
 - password: admin
 
 
-If you wish to load additional meetups add an API key to the MEETUP_API_ENV_NAME env variable.
+If you wish to load additional meetups add an API key to the MEETUP_API_KEY env variable. Once running navigate to http://127.0.0.1:8000.

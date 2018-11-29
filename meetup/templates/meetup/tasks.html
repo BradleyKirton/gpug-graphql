@@ -1,37 +1,64 @@
+{% load static %}
+{% load djangovue %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Tasks</title>
+
+	{% load_vuejs %}	
+	{% render_link_tag 'bootstrap' %}
+	{% render_script_tag 'axios' %}
+
+	<script type="module" src="{% static 'js/app.js' %}" defer></script>
 </head>
 <body>
-	<div>
-		<h1>Sync Meetup data</h1>
-
-		<p>Enter a meetup name in the form below to add it to the application.</p>
-		<p>The meetup name is the path in the URI on meetup.com.</p>
-		<p>Note if no name is provided we will attempt to sync all the meetups stored in the database.</p>
+	{% djangovue on %}
+	<div id="app" class="container">
+		<div class="mb-5"></div>
 		
-		<form action="/tasks/" method="post">
-			{% csrf_token %}
-			<label for="Meetup name" title="This is the path in the meetup URI"></label>
-			<input type="text" id="name" name="name" value="{{ name }}">
+		<div class="row mb-5">
+			<div class="col">
+				<h1>Sync Meetup data</h1>
 
-			<input type="submit" value="Sync">
-		</form>
-		
-		<h1>Meetups</h1>
+				<p>Enter a meetup name to add a new meetup or click sync to sync the existing ones.</p>
+				<p>The meetup name is the path in the URI on meetup.com.</p>
+				<p>Note if no name is provided we will attempt to sync all the meetups stored in the database.</p>
+				
+				<form>
+					<fieldset class="form-group">
+						<label for="Meetup name" title="This is the path in the meetup URI"></label>
+						<input class="form-control" type="text" id="name" name="name" :value="meetupUrl">
+					</fieldset>
 
-		{% for meetup in meetups %}
-		    <ul>
-		    	{% if meetup.syncing %}
-		    		<li class="meetup" id="{{ meetup.id }}">{{ meetup.name }} - Syncing</li>
-		    	{% else %}
-		    		<li class="meetup" id="{{ meetup.id }}">{{ meetup.name }}</li>
-		    	{% endif %}
-		    </ul>
-		{% endfor %}
+					<button @click.prevent="addNewMeetup" class="btn btn-primary" type="submit">Add new</button>
+				</form>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<h1>Meetups</h1>
+			    <ul class="list-group">
+		    		<li v-for="meetup in meetups" :id="meetup.id" class="list-group-item">
+	    				{{ meetup.name }}
+	    				<span v-if="isSyncing(meetup)" class="badge badge-pill badge-info">Syncing</span>
+		    			<span v-if="hasSyncError(meetup)" class="badge badge-pill badge-danger">Errored</span>
+
+		    			<button
+		    				@click="syncMeetup(meetup)"
+		    				:disabled="isSyncing(meetup)"
+		    				class="btn btn-primary float-right">
+		    				Sync
+		    			</button>
+		    		</li>
+			    </ul>
+			</div>
+		</div>
 	</div>
-	</script>
+	{% enddjangovue on %}
+
+	{{ vue_context|json_script:"vue-context" }}
 </body>
 </html>
