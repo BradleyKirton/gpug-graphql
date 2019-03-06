@@ -14,7 +14,7 @@ requests = "^2.20"
 djangorestframework = "^3.9"
 ipython = "^7.1"
 dramatiq = {version = "^1.4",extras = ["watch", "redis"]}
-djangovue = "^0.0.5"
+djangovue = "^0.0.8"
 
 [tool.poetry.dev-dependencies]
 

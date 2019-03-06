@@ -53,10 +53,9 @@ drf_graphql_view = meetup.views.RestGraphQL.as_view(schema=schema)
 
 
 urlpatterns = [
-    django.urls.path("", graphql_view),
+    django.urls.path("", meetup.views.Task.as_view(), name="tasks-page"),
     django.urls.path("api/", django.urls.include(router.urls)),
     django.urls.path("api/sync-meetup/", meetup.views.sync_meetup, name="sync-meetup"),
     django.urls.path("api/", RootApiView.as_view()),
     django.urls.path("api/graphql/", drf_graphql_view, name="graphql-drf"),
-    django.urls.path("tasks/", meetup.views.Task.as_view(), name="tasks-page"),
 ]

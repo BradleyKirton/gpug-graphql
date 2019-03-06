@@ -11,7 +11,8 @@
 	{% render_link_tag 'bootstrap' %}
 	{% render_script_tag 'axios' %}
 
-	<script type="module" src="{% static 'js/app.js' %}" defer></script>
+  <script nomodule src="{% static 'js/App.js' %}" defer></script>
+	<script type="module" src="{% static 'js/App.js' %}" defer></script>
 </head>
 <body>
 	{% djangovue on %}
@@ -21,18 +22,30 @@
 		<div class="row mb-5">
 			<div class="col">
 				<h1>Sync Meetup data</h1>
-
-				<p>Enter a meetup name to add a new meetup or click sync to sync the existing ones.</p>
-				<p>The meetup name is the path in the URI on meetup.com.</p>
-				<p>Note if no name is provided we will attempt to sync all the meetups stored in the database.</p>
+        <blockquote>
+          Enter a meetup name to add a new meetup or click sync to sync the existing ones.
+          The meetup name is the path in the URI on meetup.com.
+          Note if no name is provided we will attempt to sync all the meetups stored in the database.
+        </blockquote>
 				
 				<form>
 					<fieldset class="form-group">
-						<label for="Meetup name" title="This is the path in the meetup URI"></label>
-						<input class="form-control" type="text" id="name" name="name" :value="meetupUrl">
+						<label for="Meetup name">Meetup name</label>
+						<input
+              class="form-control"
+              type="text"
+              title="This is the path in the meetup URI"
+              id="name"
+              name="name"
+              v-model="meetupUrl">
 					</fieldset>
 
-					<button @click.prevent="addNewMeetup" class="btn btn-primary" type="submit">Add new</button>
+					<button
+            @click.prevent="addNewMeetup"
+            class="btn btn-primary"
+            :disabled="isAdding || meetupUrl.length === 0">
+            Add new
+          </button>
 				</form>
 			</div>
 		</div>
