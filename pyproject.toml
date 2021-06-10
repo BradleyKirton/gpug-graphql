@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-django = "^2.1"
+django = "^2.2"
 graphene-django = "^2.2"
 django-dramatiq = "^0.5.1"
 requests = "^2.20"
